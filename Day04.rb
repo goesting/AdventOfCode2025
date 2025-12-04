@@ -1,19 +1,11 @@
 #Method to return array of all rolls with <4 neighbour rolls
 def accessible_rolls(grid, rows, cols, offsets)
   to_remove = []
-  grid.each_with_index{|line,y| line.each_with_index{|chr,x|
+  grid.each_index{|y| grid[y].each_index{|x|
   neighbours = 0
   next if grid[y][x] == '.'
-  offsets.each{|dy,dx|
-    nx=x+dx
-    ny=y+dy
-    if (0...rows).cover?(ny) && (0...cols).cover?(nx)
-      #puts ny
-      neighbours += 1 if grid[ny][nx] == '@'
-    end
-  }
+  neighbours = offsets.count{|dy,dx|(0...rows).cover?(y+dy) && (0...cols).cover?(x+dx) && grid[y+dy][x+dx] == '@'}
   to_remove << [y,x] if neighbours < 4
-
 }}
 to_remove
 end
